@@ -22,8 +22,7 @@ class HomeController extends AbstractController {
             [
                 'prenom'=> $prenom,
                 'age'=>$age
-            ]
-            );
+            ]);
     }
     /**
      * @Route("/", name="homepage")

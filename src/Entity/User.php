@@ -85,6 +85,11 @@ class User implements UserInterface
      */
     private $ads;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Role::class, mappedBy="users")
+     */
+    private $userRole;
+
     public function getFullName(){
         return "{$this->firstName} {$this->lastName}";
     }
@@ -106,6 +111,7 @@ class User implements UserInterface
     public function __construct()
     {
         $this->ads = new ArrayCollection();
+        $this->userRole = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -240,8 +246,14 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getRoles(){
-        return ['ROLE_USER'];
+    public function getRoles() {
+        $roles = $this->userRole->map(function($role){
+            return $role->getTitle();
+        })->toArray();
+
+        $roles[] =  'ROLE_USER';
+
+        return $roles;
     }
 
     public function getPassword(){
@@ -255,4 +267,32 @@ class User implements UserInterface
     }
 
     public function eraseCredentials(){}
+
+    /**
+     * @return Collection|Role[]
+     */
+    public function getUserRole(): Collection
+    {
+        return $this->userRole;
+    }
+
+    public function addUserRole(Role $userRole): self
+    {
+        if (!$this->userRole->contains($userRole)) {
+            $this->userRole[] = $userRole;
+            $userRole->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserRole(Role $userRole): self
+    {
+        if ($this->userRole->contains($userRole)) {
+            $this->userRole->removeElement($userRole);
+            $userRole->removeUser($this);
+        }
+
+        return $this;
+    }
 }

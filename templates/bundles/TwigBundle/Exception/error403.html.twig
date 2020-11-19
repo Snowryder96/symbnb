@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vous n'avez pas le droit d'acceder a cette ressource{% endblock title  %}
+{% block body %}
+<div class="container">
+  <h1>Oups ! La page que vous recherchez n'existe pas ! </h1>
+  <p>On a surement du mal vous renseigner ! Aucun soucis, vous pourvez Retourner a l'accueil ou voir nos dernieres annonces ! </p>
+  <a href="{{ path('homepage') }}" class="btn btn-primary">Retour a l'accueil</a>
+  <a href="{{ path('ads_index') }}" class="btn btn-primary">Nos annonces</a>
+</div>
+{% endblock %}

@@ -8,7 +8,7 @@
         <h1>{{ad.title}}</h1>
         <p>{{ ad.introduction }}</p>
         <p class="h2">
-            <strong>{{ad.rooms}} chambres</strong>pour <strong>{{ad.price}}&euro; par nuit</strong>
+            <strong>{{ad.rooms}} chambres</strong>pour <strong>{{ad.price | number_format(2, ',', ' ')}} &euro; par nuit</strong>
         </p>
         <a href="{{ path('booking_create', {'slug': ad.slug}) }}" class="btn btn-primary">Reserver!</a>
 
@@ -50,6 +50,41 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
+            <hr>
+            {% if ad.comments|length > 0 %}
+                <h2 class="mb-3">Commentaires de nos voyageurs: </h2>
+
+                <div class="alert alert-info">
+                    <h4 class="alert-heading text-center">
+                        <div class="row align-items-center">
+                            <div class="col ">
+                                Note global donnée par nos voyageurs
+                                
+                            </div>
+                            <div class="col ">
+                                {% include 'partials/rating.html.twig' with {'rating': ad.avgRating } %}
+                                <p class="m-0">
+                                    <small>(Calculé sur {{ad.comments|length}} avis) </small>
+                                </p>
+                            </div>
+                        </div>
+                    </h4>
+                </div>
+
+                {% for comment in ad.comments %}
+                    <div class="bg-light rounded mb-3 p-3">
+                        <strong>{{ comment.author.firstName}}</strong>
+                        <blockquote>
+                            {{comment.content}}
+                        </blockquote>
+                        <strong>Note donné :</strong> {{comment.rating}}
+                        {% set rating = comment.rating %}
+                        {% include 'partials/rating.html.twig' with {'rating': comment.rating} %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h2 class="mb-3">Cette annonce n'a pas encore d'avis... </h2>
+            {% endif %}
         </div>
         <div class="col">
         {% set a = ad.author %}

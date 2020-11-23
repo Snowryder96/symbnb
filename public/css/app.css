@@ -5,12 +5,17 @@
 .titre-annonce{
  padding: 2em;
  background-size: cover;
- background-position: center;
+ background-position: center center;
 }
 
 div.titre-annonce h1, div.titre-annonce p{
     color:white;
     text-shadow: 3px 3px 3px rgba(0, 0, 0, .5);
+}
+div.titre-annonce .btn{
+    margin-top: 2em;
+    font-size: 1.5em;
+    line-height: 1.5em;
 }
 
 div.carousel-caption {
@@ -30,9 +35,13 @@ div.carousel-caption {
     max-width: 24px;
     max-height: 24px;
 }
-
-
 .datepicker table tr td.disabled, .datepicker table tr td.disabled:hover {
     color: red;
     background-color:black;
+}
+.alert a{
+    text-decoration: none;
+}
+.badge.badge-primary{
+    border-radius: 5%;
 }

@@ -18,7 +18,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AdController extends AbstractController
 {
     /**
+     * Permet d'afficher les annonces
+     * 
      * @Route("/ads", name="ads_index")
+     * 
+     * @param AdRepository $repo
+     * @return Response
      */
     public function index(AdRepository $repo)
     {
@@ -30,11 +35,13 @@ class AdController extends AbstractController
         ]);
     }
     /**
-     * permet de crée une annoce
+     * Permet de crée une annoce
      * 
      * @Route("/ads/new", name="ads_create")
      * @IsGranted("ROLE_USER")
-     *
+     * 
+     * @param EntityManagerInterface $manager
+     * @param Request $request
      * @return Response
      */
     public function create(Request $request, EntityManagerInterface $manager){
@@ -77,6 +84,9 @@ class AdController extends AbstractController
      * @Route("/ads/{slug}/edit", name="ads_edit")
      * @Security("is_granted('ROLE_USER') and user === ad.getAuthor()", message="Cette annonce ne vous appartient pas, vous ne pouvez pas la modifier !")
      * 
+     * @param EntityManagerInterface $manager
+     * @param Request $request
+     * @param Ad $ad
      * @return Response
      */
     public function edit(Ad $ad, Request $request, EntityManagerInterface $manager){
@@ -114,6 +124,7 @@ class AdController extends AbstractController
      *
      * @Route("/ads/{slug}", name="ads_show")
      * 
+     * @param Ad $ad
      * @return response
      */
     public function show(Ad $ad){
